@@ -25,6 +25,8 @@ RUN apt-get update \
     && echo "deb https://dl.yarnpkg.com/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && apt-get update \
     && apt-get -y install --no-install-recommends yarn \
+    # Install additional packages
+    && apt-get -y install zsh jq tmux sudo less vim \
     #
     # Install eslint globally
     && npm install -g eslint \
@@ -33,6 +35,34 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
+
+# Install elm
+# Set elm version
+ARG ELM_VERSION=0.19.0
+
+RUN curl -LO https://github.com/elm/compiler/releases/download/${ELM_VERSION}/binary-for-linux-64-bit.gz \
+    && gzip -d binary-for-linux-64-bit.gz \
+    && mv binary-for-linux-64-bit /usr/local/bin/elm \
+    && chmod +x /usr/local/bin/elm
+
+# Add devgroup & devuser
+RUN groupadd -g 999 devgroup \
+    && useradd -u 999 -g devgroup -G sudo -m -s /usr/bin/zsh devuser \
+    && passwd -d devuser
+
+# RUN echo 'Defaults visiblepw'             >> /etc/sudoers
+RUN echo 'devuser ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/devuser
+
+# Change user
+USER devuser
+
+# Install prezto
+RUN zsh -c 'git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"'
+RUN zsh -c 'setopt EXTENDED_GLOB && for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"; done'
+
+# Set prompt theme
+ENV PREZTO_PROMPT_THEME=cloud
+RUN zsh -c 'source "${ZDOTDIR:-$HOME}/.zshrc" && prompt -s "${PREZTO_PROMPT_THEME}" | sed "1,3d" >> "${ZDOTDIR:-$HOME}/.zshrc"'
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog
