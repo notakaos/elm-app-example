@@ -57,7 +57,7 @@ RUN zsh -c 'git clone --recursive https://github.com/sorin-ionescu/prezto.git "$
 RUN zsh -c 'setopt EXTENDED_GLOB && for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"; done'
 
 # Set prompt theme
-ENV PREZTO_PROMPT_THEME=cloud
+ENV PREZTO_PROMPT_THEME=steeef
 RUN zsh -c 'source "${ZDOTDIR:-$HOME}/.zshrc" && prompt -s "${PREZTO_PROMPT_THEME}" | sed "1,3d" >> "${ZDOTDIR:-$HOME}/.zshrc"'
 
 # Create Symbolic link to workspace
