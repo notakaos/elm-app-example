@@ -1,5 +1,7 @@
 # elm-app-example
 
+ref. https://guide.elm-lang.jp/
+
 ## Development
 
 ### Requirements
