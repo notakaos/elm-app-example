@@ -39,7 +39,6 @@ RUN apt-get update \
 # Install elm
 # Set elm version
 ARG ELM_VERSION=0.19.0
-
 RUN yarn global add elm@${ELM_VERSION} elm-test elm-css elm-live elm-format
 
 # Add devgroup & devuser
