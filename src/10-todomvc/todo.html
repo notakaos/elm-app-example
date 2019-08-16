@@ -1,0 +1,51 @@
+<!doctype>
+<html lang="ja" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="utf-8">
+  
+  <!-- for smartphone and tablet -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- for Apple devices -->
+  <!-- <link rel="apple-touch-icon" href="icon.png"> -->
+
+  <!-- Chrome, Firefox OS and Opera-->
+  <meta name="theme-color" content="#4285f4">
+
+  <!-- Page description -->
+  <title>ページタイトル</title>
+  <meta name="description" content="ページの説明">
+
+  <!-- OGP -->
+  <!-- <meta property="og:type" content="website"> -->
+  <!-- <meta property="og:site_name" content="サイト名"> -->
+  <!-- <meta property="og:title" content="ページタイトル"> -->
+  <!-- <meta property="og:description" content="ページの説明"> -->
+  <!-- <meta property="og:url" content="https://YOUR_PAGE_DOMAIN/"> -->
+  <!-- <meta property="og:image" content="https://YOUR_PAGE_DOMAIN/img/ogp.png"> -->
+  <!-- Facebook Only -->
+  <!-- <meta peropery="fb:app_id" content="[APP_ID]"> -->
+  <!-- Twitter Only -->
+  <!-- <meta name="twitter:site" content="@ユーザー名"> -->
+  <!-- <meta name="twitter:card" content="summary||summary_large_image" -->
+  <!-- /OGP -->
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="app-root">Now Loading...</div>
+  <script src="todo.js"></script>
+  <script type="text/javascript">
+  var storedState = localStorage.getItem('elm-todo-save')
+  var startingState = storedState ? JSON.parse(storedState) : null
+  var app = Elm.Main.init({
+    flags: startingState
+  })
+  app.ports.setStorage.subscribe(function(state) {
+      localStorage.setItem('elm-todo-save', JSON.stringify(state))
+  })
+  </script>
+</body>
+</html>
