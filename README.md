@@ -16,7 +16,7 @@ code .
 
 ```sh
 # in container
-elm-live src/01-button.elm --start-page=index.html -- --output=dist/elm.js
+elm-live src/01-button.elm --start-page=index.html -- --output=tmp/elm.js
 
 #=> open http://localhost:8000
 ```
