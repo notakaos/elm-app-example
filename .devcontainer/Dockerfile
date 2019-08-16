@@ -40,10 +40,7 @@ RUN apt-get update \
 # Set elm version
 ARG ELM_VERSION=0.19.0
 
-RUN curl -LO https://github.com/elm/compiler/releases/download/${ELM_VERSION}/binary-for-linux-64-bit.gz \
-    && gzip -d binary-for-linux-64-bit.gz \
-    && mv binary-for-linux-64-bit /usr/local/bin/elm \
-    && chmod +x /usr/local/bin/elm
+RUN yarn global add elm@${ELM_VERSION} elm-test elm-css elm-live elm-format
 
 # Add devgroup & devuser
 RUN groupadd -g 999 devgroup \
@@ -63,6 +60,9 @@ RUN zsh -c 'setopt EXTENDED_GLOB && for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/r
 # Set prompt theme
 ENV PREZTO_PROMPT_THEME=cloud
 RUN zsh -c 'source "${ZDOTDIR:-$HOME}/.zshrc" && prompt -s "${PREZTO_PROMPT_THEME}" | sed "1,3d" >> "${ZDOTDIR:-$HOME}/.zshrc"'
+
+# Create Symbolic link to workspace
+RUN ln -s /workspaces ~/workspaces
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog
