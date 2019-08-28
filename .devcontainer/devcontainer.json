@@ -13,8 +13,8 @@
 
 	// Uncomment the next line to run commands after the container is created.
 	// "postCreateCommand": "yarn install",
-
 	"extensions": [
-		"dbaeumer.vscode-eslint"
+		"dbaeumer.vscode-eslint",
+		"sbrink.elm"
 	]
 }
